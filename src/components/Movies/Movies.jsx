@@ -1,11 +1,19 @@
-import React from 'react'
+import React from "react";
+import useStyles from "./styles";
+import {
+  Box,
+  CircularProgress,
+  useMediaQuery,
+  Typography,
+} from "@mui/material";
+import { useGetMoviesQuery } from "../../services/TMDB";
 
 const Movies = () => {
-    console.log("Movies");
+  const classes = useStyles();
+  const{data}=useGetMoviesQuery();
+  console.log(data);
 
-  return (
-    <div>Movies</div>
-  )
-}
+  return <div className={classes.widthh}>Movies</div>;
+};
 
-export default Movies
+export default Movies;
