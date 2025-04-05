@@ -1,49 +1,43 @@
-import { styled } from '@mui/material/styles';
-import { Toolbar, IconButton } from '@mui/material';
+import { styled } from '@mui/system';
+import { AppBar, Button, Drawer, Toolbar as MuiToolbar } from '@mui/material';
 
+const drawerWidth = 240;
 
-const drawerWidth=240;
-const useStyles = (theme) => ({
-
-  Toolbar: styled(Toolbar)(({ theme }) => ({
-    height: '80px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginLeft: '240px',
-    padding: theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      flexWrap : 'wrap',
-      marginLeft: '0', 
-    },
-  })),
-
-  MenuButton: styled(IconButton)(({ theme }) => ({
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  })),
-
- 
-
-  drawer: styled('drawer')(({theme})=>({
-    
-    [theme.breakpoints.up('sm')]: {
-      width:drawerWidth,
-      flexShrink:0,
-    },
-  })),
-
-  drawerPaper:{
-    width: drawerWidth,
+const Toolbar = styled(MuiToolbar)(({ theme }) => ({
+  height: '80px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginLeft: drawerWidth,
+  padding: theme.spacing(1),
+  [theme.breakpoints.down('sm')]: {
+    flexWrap: 'wrap',
+    marginLeft: 0,
   },
-  linkButton:{
-    '&:hover' :{
-        color: 'white !important',
-        textDecoration:'none',
-    }
-  }
-  
-});
+}));
 
-export default useStyles;
+const MenuButton = styled(Button)(({ theme }) => ({
+  marginRight: theme.spacing(2),
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
+  },
+}));
+
+const DrawerStyled = styled(Drawer)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+}));
+
+const DrawerPaper = styled('div')(({ theme }) => ({
+  width: drawerWidth,
+}));
+
+const LinkButton = styled(Button)(({ theme }) => ({
+  '&:hover': {
+    color: 'white !important',
+    textDecoration: 'none',
+  },
+}));
+
+export { Toolbar, MenuButton, DrawerStyled, DrawerPaper, LinkButton };

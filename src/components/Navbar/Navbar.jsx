@@ -1,85 +1,84 @@
-import React,{useState} from 'react';
-import { AppBar, Toolbar as MuiToolbar, IconButton as MuiIconButton, useMediaQuery, IconButton, Avatar,Button, Drawer } from '@mui/material';
-import {Link} from 'react-router-dom';
-import { Menu, Brightness7,Brightness4,AccountCircle } from '@mui/icons-material';
-import useStyles from './styles';
+import React, { useState } from 'react';
+import { AppBar, IconButton, Avatar, Button, useMediaQuery } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Menu, Brightness7, Brightness4, AccountCircle } from '@mui/icons-material';
 import { useTheme } from '@emotion/react';
-import {Sidebar} from '..';
+import { Sidebar } from '..';
+import { Toolbar, MenuButton, DrawerStyled, DrawerPaper, LinkButton } from './styles'; // Importing styled components
 
 const Navbar = () => {
-  const [mobileOpen,setMobileOpen] = useState(false);
-  const classes = useStyles();
-  const isMobile = useMediaQuery('(max-width:600px');
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isMobile = useMediaQuery('(max-width:600px)');
   const theme = useTheme();
-  const isAuthenticated=true;
+  const isAuthenticated = true;
 
   return (
     <>
-    
-    <AppBar position="fixed">
-      <classes.Toolbar as={MuiToolbar}>
-        {isMobile &&(
-          <classes.MenuButton as={MuiIconButton} color="inherit" edge="start"
-          onClick={()=>setMobileOpen((prevMobileOpen)=>!prevMobileOpen)}>
-            <Menu />
-          </classes.MenuButton>
-        )}
+      <AppBar position="fixed">
+        <Toolbar>
+          {isMobile && (
+            <MenuButton
+              color="inherit"
+              edge="start"
+              onClick={() => setMobileOpen((prev) => !prev)}
+            >
+              <Menu />
+            </MenuButton>
+          )}
 
-        <IconButton color="inherit" sx={{ml:1}} onClick={()=>{}}>
-          {theme.palette.mode === 'dark'? <Brightness7/> : <Brightness4/>}
-        </IconButton>
+          <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => {}}>
+            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
 
-        {!isMobile && 'Search...'}
-        
-        <div>
-        {!isAuthenticated ?(
-          <Button color="inherit" onClick={()=>{}}>Login &nbsp; <AccountCircle/></Button>
-        ):(
-          <Button
-          color="inherit"
-          component ={Link}
-          to ="/profile/:id"
-          className = {classes.linkButton}
-          onClick={()=>{}}
-          >
-            {!isMobile && <>My movies  &nbsp;</>}
-            <Avatar
-            style={{width:30, height:30}}
-            alt="profile"
-            src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-            />
-          </Button>
-        )}
-        </div>
-        {isMobile && 'Search...'}
+          {!isMobile && 'Search...'}
 
-      </classes.Toolbar>
-    </AppBar>
+          <div>
+            {!isAuthenticated ? (
+              <Button color="inherit" onClick={() => {}}>
+                Login &nbsp; <AccountCircle />
+              </Button>
+            ) : (
+              <LinkButton
+                color="inherit"
+                component={Link}
+                to="/profile/:id"
+              >
+                {!isMobile && <>My movies &nbsp;</>}
+                <Avatar
+                  style={{ width: 30, height: 30 }}
+                  alt="profile"
+                  src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                />
+              </LinkButton>
+            )}
+          </div>
 
+          {isMobile && 'Search...'}
+        </Toolbar>
+      </AppBar>
 
-//SiDEBAR
-<div>
-<nav className={classes.drawer}>
+      {/* Sidebar */}
+      <nav>
         {isMobile ? (
-          <Drawer
+          <DrawerStyled
             variant="temporary"
             anchor="right"
             open={mobileOpen}
-            onClose={()=>setMobileOpen((prevMobileOpen)=>!prevMobileOpen)}
-            classes ={{paper: classes.drawerPaper}}
-            // className ={classes.drawerPaper}
-            ModalProps={{keepMounted:true}}
+            onClose={() => setMobileOpen((prev) => !prev)}
+            ModalProps={{ keepMounted: true }}
           >
-            <Sidebar setMobileOpen={setMobileOpen}/>
-          </Drawer>
-        ):(
-          <Drawer classes ={{paper: classes.drawerPaper}} variant="permanent"  open>
-            <Sidebar setMobileOpen={setMobileOpen}/>
-          </Drawer>
+            <Sidebar setMobileOpen={setMobileOpen} />
+          </DrawerStyled>
+        ) : (
+          <DrawerStyled
+            variant="permanent"
+            open
+          >
+            <Sidebar setMobileOpen={setMobileOpen} />
+          </DrawerStyled>
         )}
-</nav>
-</div>
-</>
+      </nav>
+    </>
   );
 };
 

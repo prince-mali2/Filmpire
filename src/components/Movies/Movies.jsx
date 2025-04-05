@@ -6,14 +6,42 @@ import {
   useMediaQuery,
   Typography,
 } from "@mui/material";
+import {useSelector} from 'react-redux';
 import { useGetMoviesQuery } from "../../services/TMDB";
+import MovieList from "../MovieList/MovieList";
+
 
 const Movies = () => {
   const classes = useStyles();
-  const{data}=useGetMoviesQuery();
-  console.log(data);
+  const{data, error, isFetching}=useGetMoviesQuery();
+  if(isFetching){
+    return(
+      <Box display="flex" justifyContent="center">
+        <CircularProgress size="4rem"/>
+      </Box>
+    );
+  }
 
-  return <div className={classes.widthh}>Movies</div>;
+  if(error) return "An error occurred";
+
+  if(!data || !data.results?.length){
+    return (
+      <Box display="flex" alignItems="center" mt="20px">
+        <Typography variant="h4">
+          No movies that match name.
+          <br />
+          Please search for something else.
+        </Typography>
+      </Box>
+    )
+  }
+
+  
+
+  return(
+    <div><MovieList movies={data}/></div>
+  ) 
+    
 };
 
 export default Movies;

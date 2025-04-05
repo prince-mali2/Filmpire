@@ -1,32 +1,31 @@
+// App.js
 import React from 'react';
 import { CssBaseline } from '@mui/material';
 import { Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import useStyles from './styles';
 import { Actors, MovieInformation, Movies, Navbar, Profile } from './components';
+import { Root, Content, ToolbarSpacer } from './styles'; // ⬅️ updated import
 
 const theme = createTheme();
 
 const App = () => {
-  const classes = useStyles(); 
-
   return (
-   
-      <div className={classes.Root}>
+    <ThemeProvider theme={theme}>
+      <Root>
         <CssBaseline />
         <Navbar />
-        <classes.Content>
-          <classes.Toolbar /> {/* Spacer for Navbar */}
+        <Content>
+          <ToolbarSpacer /> {/* Spacer for Navbar */}
           <Routes>
             <Route path="/movies/:id" element={<MovieInformation />} />
             <Route path="/actors/:id" element={<Actors />} />
             <Route path="/" element={<Movies />} />
             <Route path="/profile/:id" element={<Profile />} />
           </Routes>
-        </classes.Content>
-      </div>
-    
+        </Content>
+      </Root>
+    </ThemeProvider>
   );
 };
 

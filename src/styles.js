@@ -1,20 +1,17 @@
-import { styled } from '@mui/material/styles';
+// AppStyles.js
+import { styled } from '@mui/system';
 
-const useStyles = () => ({
-  Root: styled('div')(({ theme }) => ({
-    padding: theme.spacing(1),
-    display: 'flex',
-    height: '100%',
-  })),
-
-  Toolbar: styled('div')(({ theme }) => ({
-    height: '70px',
-  })),
-
-  Content: styled('main')(({ theme }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(2),
-  })),
+export const Root = styled('div')({
+  display: 'flex',
+  height: '100vh',
 });
 
-export default useStyles;
+export const Content = styled('main')(({ theme }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(2),
+  width: '100%',
+}));
+
+export const ToolbarSpacer = styled('div')(({ theme }) => ({
+  ...theme.mixins.toolbar,
+}));
