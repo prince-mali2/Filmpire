@@ -4,7 +4,7 @@ import { StyledLink, Title, MovieImage } from "./styles";
 
 const Movie = ({ movie, i }) => {
   return (
-    <Grid  size={{xs:12, sm:6, md:4, lg:3, xsl:2}}
+    <Grid  size={{xs:12, sm:6, md:4, lg:3, xl:2}}
     >
       <Grow in key={i} timeout={(i + 1) * 250}>
         <StyledLink to={`/movie/${movie.id}`}>

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { genreOrCategory } from "../features/currentGenreOrCategory";
 
 const tmdbApiKey = import.meta.env.VITE_TMDB_KEY; 
 
@@ -15,9 +16,21 @@ createApi({
     getGenres: builder.query({
       query:()=>`/genre/movie/list?api_key=${tmdbApiKey}`,
     }),
+
     //*Get Movies
     getMovies: builder.query({
-      query: () => `movie/popular?page=${page}&api_key=${tmdbApiKey}`,
+      query: ({genreIdOrCategoryName, page}) => {
+        //* Get movies by category
+        if(genreIdOrCategoryName && typeof (genreIdOrCategoryName) === 'string'){
+          return `movie/${genreIdOrCategoryName}?page=${page}&api_key=${tmdbApiKey}`
+        }
+
+        //* Get Movies by Genre
+        if(genreIdOrCategoryName && typeof (genreIdOrCategoryName) === 'number'){
+          return `discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${tmdbApiKey}`
+        }
+        return `movie/popular?page=${page}&api_key=${tmdbApiKey}`;
+      }
     }),
   }),
 });
