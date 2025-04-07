@@ -11,10 +11,8 @@ const Movie = ({ movie, i }) => {
           <MovieImage
             alt={movie.title}
             src={
-              movie.poster_path
-                ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                : "https://www.fillmurray.com/200/300"
-            }
+             `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                
           />
          
           <Title variant="h6">{movie.title}</Title>
