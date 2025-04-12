@@ -4,7 +4,7 @@ import useStyles from './styles';
 import Movie from '../Movie/Movie';
 
 const MovieList = ({movies}) => {
-    console.log('movielist');
+    
     const classes=useStyles();
     
   return (
