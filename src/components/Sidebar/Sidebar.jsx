@@ -52,7 +52,7 @@ const Sidebar = ({ setMobileOpen }) => {
         />
       </StyledLink>
 
-      <Divider />
+      
 
       {/* Categories */}
       <List>
@@ -73,7 +73,7 @@ const Sidebar = ({ setMobileOpen }) => {
 
 
 
-      <Divider/>
+      
       <List>
         <ListSubheader>Genres</ListSubheader>
 
