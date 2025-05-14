@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { genreOrCategory } from "../features/currentGenreOrCategory";
-
 const tmdbApiKey = import.meta.env.VITE_TMDB_KEY; 
 
 

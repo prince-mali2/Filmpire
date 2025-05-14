@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Modal,
   Typography,
@@ -31,6 +31,7 @@ import { ContainerSpaceAround, Poster,PosterContainer,GenreContainer,GenreImage,
 import genreIcons from '../../assets/genres';
 import {selectGenreOrCategory} from '../../features/currentGenreOrCategory';
 import {MovieList} from '../';
+import { useState } from "react";
 
 
 
@@ -167,6 +168,9 @@ const MovieInformation = () => {
         <Typography variant="h3" gutterBottom align="center"> You might also like</Typography>
         {recommendations? <MovieList movies={recommendations} numberOfMovies={12}/>: <Box> Sorry, nothing was found</Box>}
     </Box>
+    <Modal closeAfterTransition>
+
+    </Modal>
     </ContainerSpaceAround>
   );
 };
