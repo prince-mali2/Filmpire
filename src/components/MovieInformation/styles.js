@@ -1,6 +1,8 @@
 import { styled, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
+import { Modal } from "@mui/material";
+
 
 
 // Styled link component
@@ -70,7 +72,7 @@ const Links = styled(Link)(({ theme }) => ({
 })); 
 
 const TextContainer = styled(Typography)(({ theme }) => ({
-  maxWidth: '900px', // limits width of text content
+  maxWidth: '1000px', // limits width of text content
   // padding: '0 20px',
   wordWrap: 'break-word',
   [theme.breakpoints.down("sm")]: {
@@ -86,6 +88,7 @@ const CastImages = styled('img')(({ theme }) => ({
   objectFit:'cover',
   borderRadius:'10px'
 })); 
+
 const ButtonContainer = styled(Grid)(({ theme }) => ({
   display:'flex',
   flexDirection:'row',
@@ -98,5 +101,19 @@ const ButtonContainer = styled(Grid)(({ theme }) => ({
   }
 })); 
 
+const Modals = styled(Modal)(({ theme }) => ({
+  diplay:'flex',
+  alignItems: 'center',
+  justifyContent:'center',
+})); 
+const Videos = styled('iframe')(({ theme }) => ({
+  width:'50px',
+  height:'50px',
+  [theme.breakpoints.down('sm')]:{
+    width:'90%',
+    height:'90%',
+  }
+}));
 
-export { ContainerSpaceAround,Poster,PosterContainer,GenreContainer,GenreImage,Links,TextContainer,CastImages,ButtonContainer};
+
+export { ContainerSpaceAround,Poster,PosterContainer,GenreContainer,GenreImage,Links,TextContainer,CastImages,ButtonContainer,Modals,Videos};

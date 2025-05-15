@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React , {useState} from "react";
 import {
   Modal,
   Typography,
@@ -27,11 +27,10 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useGetMovieQuery,useGetRecommendationQuery } from "../../services/TMDB";
-import { ContainerSpaceAround, Poster,PosterContainer,GenreContainer,GenreImage,Links,TextContainer,CastImages,ButtonContainer } from "./styles";
+import { ContainerSpaceAround, Poster,PosterContainer,GenreContainer,GenreImage,Links,TextContainer,CastImages,ButtonContainer,Modals,Videos } from "./styles";
 import genreIcons from '../../assets/genres';
 import {selectGenreOrCategory} from '../../features/currentGenreOrCategory';
 import {MovieList} from '../';
-import { useState } from "react";
 
 
 
@@ -41,6 +40,8 @@ const MovieInformation = () => {
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
   const dispatch = useDispatch();
+const [open, setOpen] = useState(false);
+
   const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationQuery({list:'recommendations', movie_id:id});
 
   const isMovieFavorited = false;
@@ -66,12 +67,11 @@ const MovieInformation = () => {
       </Box>
     );
   }
-  console.log(recommendations);
   
 
   return (
     <ContainerSpaceAround container>
-    <Grid item sm={12} lg={4}>
+    <Grid size={{sm:12,lg:4}}>
       <PosterContainer>
       <Poster
       src={`https://image.tmdb.org/t/p/w500/${data?.poster_path}`} alt={data?.title}
@@ -79,7 +79,7 @@ const MovieInformation = () => {
     </PosterContainer>
     </Grid>
 
-    <Grid item direction ="column" lg={7}>
+    <Grid   direction ="column" size={{lg:7}}>
     <Typography variant="h3" align="center" gutterBottom>
       {data?.title} ({data.release_date.split('-')[0]})
     </Typography>
@@ -88,7 +88,7 @@ const MovieInformation = () => {
       </Typography>
 
       <ContainerSpaceAround>
-      <Grid item style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <Grid   style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Box sx={{display:"flex", align:"center"}}>
         <Rating readOnly value={data.vote_average/2}/>
         <Typography variant="subtitle1" gutterBottom style={{marginLeft: '20px'}}> {Number(data?.vote_average).toFixed(1)}/10</Typography>
@@ -99,7 +99,7 @@ const MovieInformation = () => {
         </Typography>
       </Grid>
       </ContainerSpaceAround>
-      <Grid item>
+      <Grid  >
       <GenreContainer>
         {data?.genres?.map((genre)=>(
         
@@ -121,32 +121,33 @@ const MovieInformation = () => {
       </TextContainer>
 
       <Typography variant="h5" gutterBottom>Top Cast</Typography>
-      <Grid item container spacing={2}>
+      <Grid   container spacing={2}>
         {data && data.credits?.cast?.map((character,i)=>(
           character.profile_path && (
-          <Grid key={i} item xs={4} md={2} component={Link} to={`/actors/${character.id}`} style={{textDecoration:'none',  }}>
+            
+          <Grid key={i}  size={{xs:6, md:2}} component={Link} to={`/actors/${character.id}`} style={{textDecoration:'none',  }}>
             <CastImages  src={ `https://image.tmdb.org/t/p/w500/${character.profile_path}`} alt={character.name}/>
             <Typography color="textPrimary" style={{ wordWrap: 'break-word',maxWidth: '120px'}}>{character?.name}</Typography>
-            <Typography color="textSecondary" style={{ wordWrap: 'break-word',maxWidth: '120px'}}>{character.character.split('/')[0]}</Typography>
+            <Typography color="textSecondary" style={{ wordWrap: 'break-word',maxWidth: '110px'}}>{character.character.split('/')[0]}</Typography>
           </Grid>
-          )
-        )).slice(0,7)}
+          ) 
+        )).slice(0,8)}
       </Grid>
 
-      <Grid item container style={{marginTop:'2rem'}}>
+      <Grid   container style={{marginTop:'2rem'}}>
         <div>
         <ButtonContainer>
           
-        <Grid item xs={12} sm={6} sx={{ marginRight: '150px' }}>
+        <Grid size={{xs:12, sm:6}} sx={{ marginRight: '150px' }}>
           <ButtonGroup size="small" variant="outlined">
           <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} endIcon={<Language /> } style={{ fontSize: '16px' }}>Website</Button>
           <Button target="_blank" rel="noopener noreferrer" href={`httpS://www.imdb.com/title/${data?.imdb_id}`} endIcon={<MovieIcon />} style={{ fontSize: '16px' }}>IMDB</Button>
-          <Button onClick={()=>{}} href="#" endIcon={<Theaters />} style={{ fontSize: '16px' }}>Trailer</Button>
+          <Button onClick={()=>setOpen(true)} href="#" endIcon={<Theaters />} style={{ fontSize: '16px' }}>Trailer</Button>
           </ButtonGroup>
         </Grid>
         
 
-        <Grid item xs={12} sm={6}>
+        <Grid size={{xs:12, sm:6}}>
           <ButtonGroup size="small" variant="outlined">
           <Button onClick={addToFavorite} endIcon={isMovieFavorited ? <FavoriteBorderOutlined/> : <Favorite/>} style={{ fontSize: '16px' }}>{isMovieFavorited ? 'UnFavorite' : 'Favorite'}</Button>
 
@@ -168,9 +169,30 @@ const MovieInformation = () => {
         <Typography variant="h3" gutterBottom align="center"> You might also like</Typography>
         {recommendations? <MovieList movies={recommendations} numberOfMovies={12}/>: <Box> Sorry, nothing was found</Box>}
     </Box>
-    <Modal closeAfterTransition>
+        console.log(data);
+    <Modals
+    closeAfterTransition
+    open={open} 
+    onClose={()=>setOpen(false)}
+    >
+      {data?.videos?.results?.length >0 &&(
+        <Videos>
+          <iframe
+          autoPlay
+          frameBorder="0"
+          title="Trailer"
+          src = {`https://www.youtube.com/embed/${data.videos.results[0].key} `}
+          allow = "autoplay"
 
-    </Modal>
+          />
+        </Videos>
+      )}
+
+    </Modals>
+
+
+
+
     </ContainerSpaceAround>
   );
 };

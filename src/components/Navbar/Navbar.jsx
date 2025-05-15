@@ -20,7 +20,7 @@ const Navbar = () => {
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
   const dispatch = useDispatch();
 
-  console.log(user);
+  // console.log(user);
   
 
   useEffect(()=>{
