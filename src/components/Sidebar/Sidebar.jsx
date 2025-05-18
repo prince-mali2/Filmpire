@@ -25,9 +25,9 @@ const categories=[
 ]
 
 
-const redLogo =
-  "https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png";
 const blueLogo =
+  "https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png";
+const redLogo =
   "https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png";
 
 const Sidebar = ({ setMobileOpen }) => {
@@ -61,7 +61,7 @@ const Sidebar = ({ setMobileOpen }) => {
           <StyledLink key={value} to="/">
             <ListItem onClick={() =>dispatch(selectGenreOrCategory(value)) } >
             <ListItemIcon>
-                <img src={genreIcons[label.toLowerCase()]} className={classes.genreImages} height={30}/>
+                <GenreImage src={genreIcons[label.toLowerCase()]}  height={30}/>
               </ListItemIcon>
               <ListItemText primary={label} />
             </ListItem>
@@ -86,7 +86,7 @@ const Sidebar = ({ setMobileOpen }) => {
           <StyledLink key={name} to="/">
             <ListItem onClick={() =>dispatch(selectGenreOrCategory(id)) }  >
               <ListItemIcon>
-                <img src={genreIcons[name.toLowerCase()]} className={classes.genreImages} height={30}/>
+                <GenreImage src={genreIcons[name.toLowerCase()]}  height={30}/>
               </ListItemIcon>
               <ListItemText primary={name} />
             </ListItem>

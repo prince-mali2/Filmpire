@@ -8,6 +8,7 @@ import { searchMovie } from "../../features/currentGenreOrCategory";
 
 const Search = () => {
   const [query, setQuery] = useState("");
+  const location = useLocation();
   const dispatch = useDispatch();
   const handleKeyPress = (event) => {
     if(event.key === 'Enter'){
@@ -16,6 +17,8 @@ const Search = () => {
         dispatch(searchMovie(query));
     }
   };
+
+  if(location.pathname != '/') return null;
   return (
     <div>
       <SearchContainer>

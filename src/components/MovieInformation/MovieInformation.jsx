@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React , {useState,useEffect} from "react";
 import {
   Modal,
   Typography,
@@ -26,30 +26,62 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useGetMovieQuery,useGetRecommendationQuery } from "../../services/TMDB";
+import { tmdbApi, useGetMovieQuery,useGetRecommendationQuery,useGetListQuery } from "../../services/TMDB";
 import { ContainerSpaceAround, Poster,PosterContainer,GenreContainer,GenreImage,Links,TextContainer,CastImages,ButtonContainer,Modals,Videos } from "./styles";
 import genreIcons from '../../assets/genres';
 import {selectGenreOrCategory} from '../../features/currentGenreOrCategory';
-import {MovieList} from '../';
+import {MovieList, Pagination} from '../';
+import { userSelector } from "../../features/auth";
 
 
 
 
 
 const MovieInformation = () => {
+  const {user} = useSelector(userSelector);
   const { id } = useParams();
-  const { data, isFetching, error } = useGetMovieQuery(id);
   const dispatch = useDispatch();
-const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  
+  const { data, isFetching, error } = useGetMovieQuery(id);
+
+  const {data:favoriteMovies} = useGetListQuery({listname: 'favorite/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page:1});
+
+  const {data:watchListMovies} = useGetListQuery({listname: 'watchlist/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page:1});
 
   const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationQuery({list:'recommendations', movie_id:id});
+ 
 
-  const isMovieFavorited = false;
-  const isMovieWatchListed = false;
+  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
+  const [isMovieWatchListed, setIsMovieWatchListed] = useState(false);
 
+  useEffect(()=>{
+    setIsMovieFavorited(!!favoriteMovies?.results?.find((movie)=> movie?.id===data?.id));
+  },[favoriteMovies,data]);
+  useEffect(()=>{
+    setIsMovieWatchListed(!!watchListMovies?.results?.find((movie)=> movie?.id===data?.id));
+  },[watchListMovies,data])
 
-  const addToFavorite =()=>{};
-  const addToWatchList =()=>{};
+  
+  const addToFavorite =async()=>{
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${import.meta.env.VITE_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`,{
+      media_type:'movie',
+      media_id:id,
+      favorite:!isMovieFavorited,
+    });
+    setIsMovieFavorited((prev)=>!prev);
+
+  };
+  
+
+   const addToWatchList =async()=>{
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${import.meta.env.VITE_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`,{
+      media_type:'movie',
+      media_id:id,
+      watchlist:!isMovieWatchListed,
+    });
+    setIsMovieWatchListed((prev)=>!prev);
+  };
 
 
   if (isFetching) {
@@ -95,7 +127,7 @@ const [open, setOpen] = useState(false);
         </Box>
 
         <Typography variant="h6" align="center" gutterBottom style={{marginLeft: '50px'}}>
-          {data?.runtime}min {data?.spoken_languages.length > 0 ? `/ ${data?.spoken_languages[0].name}` : ''}
+          {data?.runtime}min | Language: {data?.spoken_languages[0].name}
         </Typography>
       </Grid>
       </ContainerSpaceAround>
@@ -131,7 +163,7 @@ const [open, setOpen] = useState(false);
             <Typography color="textSecondary" style={{ wordWrap: 'break-word',maxWidth: '110px'}}>{character.character.split('/')[0]}</Typography>
           </Grid>
           ) 
-        )).slice(0,8)}
+        )).slice(0,12)}
       </Grid>
 
       <Grid   container style={{marginTop:'2rem'}}>
@@ -142,7 +174,7 @@ const [open, setOpen] = useState(false);
           <ButtonGroup size="small" variant="outlined">
           <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} endIcon={<Language /> } style={{ fontSize: '16px' }}>Website</Button>
           <Button target="_blank" rel="noopener noreferrer" href={`httpS://www.imdb.com/title/${data?.imdb_id}`} endIcon={<MovieIcon />} style={{ fontSize: '16px' }}>IMDB</Button>
-          <Button onClick={()=>setOpen(true)} href="#" endIcon={<Theaters />} style={{ fontSize: '16px' }}>Trailer</Button>
+          <Button onClick={()=>setOpen(true)}  endIcon={<Theaters />} style={{ fontSize: '16px' }}>Trailer</Button>
           </ButtonGroup>
         </Grid>
         
@@ -169,31 +201,42 @@ const [open, setOpen] = useState(false);
         <Typography variant="h3" gutterBottom align="center"> You might also like</Typography>
         {recommendations? <MovieList movies={recommendations} numberOfMovies={12}/>: <Box> Sorry, nothing was found</Box>}
     </Box>
-        console.log(data);
-    <Modals
-    closeAfterTransition
-    open={open} 
-    onClose={()=>setOpen(false)}
-    >
-      {data?.videos?.results?.length >0 &&(
-        <Videos>
-          <iframe
+       
+
+ <Modals
+  closeAfterTransition
+  open={open}
+  onClose={() => setOpen(false)}
+>
+  {data?.videos?.results?.length > 0 && (
+    // Prioritize "Official Trailer" first, fallback to "Trailer"
+    (() => {
+      const trailerVideo =
+        data.videos.results.find(video =>
+          video.name.toLowerCase().includes("official trailer")
+        ) ||
+        data.videos.results.find(video =>
+          video.name.toLowerCase().includes("trailer")
+        );
+
+      return trailerVideo ? (
+        <Videos
           autoPlay
           frameBorder="0"
-          title="Trailer"
-          src = {`https://www.youtube.com/embed/${data.videos.results[0].key} `}
-          allow = "autoplay"
-
-          />
-        </Videos>
-      )}
-
-    </Modals>
-
-
-
-
-    </ContainerSpaceAround>
+          title={trailerVideo.name}
+          src={`https://www.youtube.com/embed/${trailerVideo.key}`}
+          allow="autoplay"
+        />
+      ) : (
+        <Typography variant="h6" alignItems="center" justifyContent="center">
+          No trailer available.
+        </Typography>
+      );
+    })()
+  )}
+</Modals>
+{/* <Pagination currentPage={page} setPage={setPage} totalPages={data?.total_pages}/> */}
+</ContainerSpaceAround>
   );
 };
 

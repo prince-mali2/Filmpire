@@ -102,16 +102,19 @@ const ButtonContainer = styled(Grid)(({ theme }) => ({
 })); 
 
 const Modals = styled(Modal)(({ theme }) => ({
-  diplay:'flex',
+  display:'flex',
   alignItems: 'center',
   justifyContent:'center',
 })); 
+
 const Videos = styled('iframe')(({ theme }) => ({
-  width:'50px',
-  height:'50px',
+  alignItems: 'center',
+  justifyContent:'center',
+  width:'50%',
+  height:'50%',
   [theme.breakpoints.down('sm')]:{
-    width:'90%',
-    height:'90%',
+    width:'99%',
+    height:'25%',
   }
 }));
 

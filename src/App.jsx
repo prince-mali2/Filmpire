@@ -7,11 +7,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Actors, MovieInformation, Movies, Navbar, Profile } from './components';
 import { Root, Content, ToolbarSpacer } from './styles'; // ⬅️ updated import
 
-const theme = createTheme();
+// const theme = createTheme();
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
+    // <ThemeProvider theme={theme}>
       <Root>
         <CssBaseline />
         <Navbar />
@@ -25,7 +25,7 @@ const App = () => {
           </Routes>
         </Content>
       </Root>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 };
 

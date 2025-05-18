@@ -1,10 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, useContext } from 'react';
 import { AppBar, IconButton, Avatar, Button, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Menu, Brightness7, Brightness4, AccountCircle } from '@mui/icons-material';
 import { useTheme } from '@emotion/react';
 import { Sidebar,Search } from '..';
 import { useDispatch, useSelector } from 'react-redux';
+import {ColorModeContext} from '../../utils/ToggleColorMode';
 import { setUser, userSelector } from '../../features/auth';
 import { fetchToken, createSessionId, moviesApi } from '../../utils';
 
@@ -20,7 +21,7 @@ const Navbar = () => {
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
   const dispatch = useDispatch();
 
-  // console.log(user);
+  const colorMode = useContext(ColorModeContext);
   
 
   useEffect(()=>{
@@ -56,7 +57,7 @@ const Navbar = () => {
             </MenuButton>
           )}
 
-          <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => {}}>
+          <IconButton color="inherit" sx={{ ml: 1 }} onClick={colorMode.toggleColorMode}>
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
 

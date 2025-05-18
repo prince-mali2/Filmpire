@@ -6,18 +6,19 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {Provider} from 'react-redux';
 import store from './app/store';
 import App from './App';
+import ToggleColorModeProvider from './utils/ToggleColorMode';
 
-const theme = createTheme(); // Create the theme
+// const theme = createTheme(); // Create the theme
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-    <ThemeProvider theme={theme}>
+    <ToggleColorModeProvider>
       <CssBaseline /> 
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </ThemeProvider>
+    </ToggleColorModeProvider>
     </Provider>
   </React.StrictMode>
 );
