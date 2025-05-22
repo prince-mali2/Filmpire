@@ -69,10 +69,6 @@ const Sidebar = ({ setMobileOpen }) => {
         ))}
       </List>
 
-
-
-
-
       
       <List>
         <ListSubheader>Genres</ListSubheader>

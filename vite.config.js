@@ -7,5 +7,9 @@ export default defineConfig({
   server: {
     host: true, // Allows external access
     port: 5173, // Default Vite port
+    proxy: {
+            '/api': 'http://localhost:3001',
+        },
   },
+ 
 })

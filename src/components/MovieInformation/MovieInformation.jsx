@@ -163,7 +163,7 @@ const MovieInformation = () => {
             <Typography color="textSecondary" style={{ wordWrap: 'break-word',maxWidth: '110px'}}>{character.character.split('/')[0]}</Typography>
           </Grid>
           ) 
-        )).slice(0,12)}
+        )).slice(0,6)}
       </Grid>
 
       <Grid   container style={{marginTop:'2rem'}}>

@@ -4,72 +4,70 @@ const tmdbApiKey = import.meta.env.VITE_TMDB_KEY;
 
 
 
-const page=1;
-export const tmdbApi = 
-createApi({
+const page = 1;
+export const tmdbApi = createApi({
   reducerPath: "tmdbApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://api.themoviedb.org/3" }),
-  
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/api" }),
   endpoints: (builder) => ({
-    //*Get Genres
+    //* Get Genres
     getGenres: builder.query({
-      query:()=>`/genre/movie/list?api_key=${tmdbApiKey}`,
+      query: () => `/genre/movie/list`,
     }),
 
-    //*Get Movies
+    //* Get Movies
     getMovies: builder.query({
-      query: ({genreIdOrCategoryName, page,searchQuery}) => {
+      query: ({ genreIdOrCategoryName, page, searchQuery }) => {
         //* Get movies by search
-        if(searchQuery){
-          return `/search/movie?query=${searchQuery}&page=${page}&api_key=${tmdbApiKey}`;
+        if (searchQuery) {
+          return `/search/movie?query=${searchQuery}&page=${page}`;
         }
         //* Get movies by category
-        if(genreIdOrCategoryName && typeof (genreIdOrCategoryName) === 'string'){
-          return `movie/${genreIdOrCategoryName}?page=${page}&api_key=${tmdbApiKey}`
+        if (genreIdOrCategoryName && typeof genreIdOrCategoryName === "string") {
+          return `/movie/${genreIdOrCategoryName}?page=${page}`;
         }
 
         //* Get Movies by Genre
-        if(genreIdOrCategoryName && typeof (genreIdOrCategoryName) === 'number'){
-          return `discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${tmdbApiKey}`
+        if (genreIdOrCategoryName && typeof genreIdOrCategoryName === "number") {
+          return `/discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}`;
         }
-        return `movie/popular?page=${page}&api_key=${tmdbApiKey}`;
-      }
+        return `/movie/popular?page=${page}`;
+      },
     }),
+
     //* Get movie
     getMovie: builder.query({
-      query: (id)=> `/movie/${id}?append_to_response=videos,credits&api_key=${tmdbApiKey}`,
-
+      query: (id) => `/movie/${id}?append_to_response=videos,credits`,
     }),
 
     //* Add to Favorite List
-    getList:builder.query({
-      query:({listname, accountId, sessionId, page})=> `/account/${accountId}/${listname}?api_key=${tmdbApiKey}&session_id=${sessionId}&page=${page}`
+    getList: builder.query({
+      query: ({ listname, accountId, sessionId, page }) =>
+        `/account/${accountId}/${listname}?session_id=${sessionId}&page=${page}`,
     }),
 
-    //* Get user Specific movies
+    //* Get user-specific movies
     getRecommendation: builder.query({
-      query: ({movie_id, list})=> `/movie/${movie_id}/${list}?api_key=${tmdbApiKey}`
+      query: ({ movie_id, list }) => `/movie/${movie_id}/${list}`,
     }),
 
-    //getActors 
+    //* Get Actors
     getActorsDetails: builder.query({
-      query:(id)=> `/pers\on/${id}?api_key=${tmdbApiKey}` 
+      query: (id) => `/person/${id}`,
     }),
-    //get Actors movies
+
+    //* Get Actor's movies
     getMoviesByActorsId: builder.query({
-      query:({id,page}) => `discover/movie?with_cast=${id}&page=${page}&api_key=${tmdbApiKey}`
-    })
-    
+      query: ({ id, page }) => `/discover/movie?with_cast=${id}&page=${page}`,
+    }),
   }),
 });
 
 export const {
-  useGetGenresQuery, 
+  useGetGenresQuery,
   useGetMoviesQuery,
   useGetMovieQuery,
   useGetListQuery,
   useGetRecommendationQuery,
   useGetActorsDetailsQuery,
   useGetMoviesByActorsIdQuery,
-} 
-  = tmdbApi;
+} = tmdbApi;
