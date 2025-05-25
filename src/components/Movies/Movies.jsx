@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import useStyles from "./styles";
+// import useStyles from "./styles";
 import {
   Box,
   CircularProgress,
@@ -14,7 +14,7 @@ import {Pagination} from "..";
 
 
 const Movies = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [page, setPage] = useState(1);
    const {genreIdOrCategoryName,searchQuery} = useSelector((state)=> state.currentGenreOrCategory);
 

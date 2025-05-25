@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Typography,Box } from '@mui/material';
 import { Movie } from '..';
 import { SpaceAround } from './styles';
@@ -9,8 +9,8 @@ const RatedCards = ({title , data}) => {
     <SpaceAround>
         <Typography variant='h5' gutterBottom>{title}</Typography>
         <Box display="flex" flexWrap="wrap">
-            {data?.results.map((movie,i)=>(
-                <Movie key={movie.id} movie={movie} i={i}/>
+            {data?.map((movie,i)=>(
+                <Movie key={movie?.movieId || `movie-${i}`} movie={movie} i={i}/>
             ))}
         </Box>
     </SpaceAround>

@@ -7,7 +7,7 @@ const tmdbApiKey = import.meta.env.VITE_TMDB_KEY;
 const page = 1;
 export const tmdbApi = createApi({
   reducerPath: "tmdbApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://filmpire-backend.onrender.com/api" }),
   endpoints: (builder) => ({
     //* Get Genres
     getGenres: builder.query({

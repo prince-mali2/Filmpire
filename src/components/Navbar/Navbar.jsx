@@ -1,18 +1,50 @@
-import React, { useState,useEffect, useContext } from 'react';
-import { AppBar, IconButton, Avatar, Button, useMediaQuery } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { Menu, Brightness7, Brightness4, AccountCircle } from '@mui/icons-material';
+import { useState,useEffect, useContext } from 'react';
+import { AppBar, IconButton, Avatar, Button, useMediaQuery,Typography } from '@mui/material';
+// import { Link } from 'react-router-dom';
+import {  Brightness7, Brightness4, AccountCircle } from '@mui/icons-material';
 import { useTheme } from '@emotion/react';
 import { Sidebar,Search } from '..';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {ColorModeContext} from '../../utils/ToggleColorMode';
-import { setUser, userSelector } from '../../features/auth';
-import { fetchToken, createSessionId, moviesApi } from '../../utils';
+import { setUser } from '../../features/auth';
+import {  createSessionId, moviesApi } from '../../utils';
+import { useAuth0 } from "@auth0/auth0-react";
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 
-import { Toolbar, MenuButton, DrawerStyled, DrawerPaper, LinkButton } from './styles'; // Importing styled components
+
+
+
+import { Toolbar, MenuButton, DrawerStyled,MaterialUISwitch } from './styles'; // Importing styled components
+
+
+const settings = ['My Profile', 'Logout'];
+
 
 const Navbar = () => {
-  const { isAuthenticated, user} = useSelector(userSelector);
+  
+    const [menuOpen, setMenuOpen] = useState(false); // Replacing anchorElUser
+
+    const handleMenuToggle = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
+  const handleMenuAction = (setting) => {
+    if (setting === 'My Profile') {
+      window.location.href = '/profile'; // Navigate to profile
+    } else if (setting === 'Logout') {
+      logout({ returnTo: window.location.origin }); // Auth0 logout
+    }
+    setMenuOpen(false); // Close the menu
+  };
+
+
+  
+  const {user, loginWithRedirect,isAuthenticated,logout} = useAuth0();
+  // const { isAuthenticated, user} = useSelector(userSelector);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width:600px)');
   const theme = useTheme();
@@ -22,6 +54,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const colorMode = useContext(ColorModeContext);
+  // console.log(user);
   
 
   useEffect(()=>{
@@ -53,41 +86,69 @@ const Navbar = () => {
               edge="start"
               onClick={() => setMobileOpen((prev) => !prev)}
             >
-              <Menu />
+              <MenuIcon/>
             </MenuButton>
           )}
 
-          <IconButton color="inherit" sx={{ ml: 1 }} onClick={colorMode.toggleColorMode}>
-            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
+      
+          {/* <MaterialUISwitch color="inherit" sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} >{theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}</MaterialUISwitch> */}
+          <Tooltip title={`Switch to ${theme.palette.mode === 'dark' ? 'light' : 'dark'} mode`}>
+            <MaterialUISwitch
+              color="inherit"
+              sx={{ ml: 1 }}
+              onClick={colorMode.toggleColorMode}
+              checked={theme.palette.mode === 'dark'} // Bind switch state to theme mode
+            >
+              {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+            </MaterialUISwitch>
+          </Tooltip>
+
 
           {!isMobile && <Search/>}
 
-          <div>
-            {!isAuthenticated ? (
-              <Button color="inherit" onClick={fetchToken}>
+          
+          {!isAuthenticated ? (
+            <Button color="inherit" onClick={(e) => loginWithRedirect()}>
                 Login &nbsp; <AccountCircle />
               </Button>
-            ) : (
-              <LinkButton
-                color="inherit"
-                component={Link}
-                to={`/profile/${user.id}`}
-              >
-                {!isMobile && <>My movies &nbsp;</>}
-                <Avatar
-                  style={{ width: 30, height: 30 }}
-                  alt="profile"
-                  src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-                />
-              </LinkButton>
-            )}
-          </div>
+          ):(
+            
+             <Box>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleMenuToggle} sx={{ p: 0 }}>
+                  <Avatar alt={user?.name} src={user?.picture} />
+                </IconButton>
+              </Tooltip>
+              {menuOpen && (
+                <Menu
+                  sx={{ mt: '45px' }}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={menuOpen}
+                  onClose={() => setMenuOpen(false)}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={() => handleMenuAction(setting)}>
+                      <Typography>{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              )}
+            </Box>
+           
+          )}
 
-          {isMobile && <Search/>}
-        </Toolbar>
-      </AppBar>
+{isMobile && <Search/>}
 
+</Toolbar>
+</AppBar>
       {/* Sidebar */}
       <nav>
         {isMobile ? (

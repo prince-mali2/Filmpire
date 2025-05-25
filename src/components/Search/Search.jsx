@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { TextField, InputAdornment } from "@mui/material";
+import { useState } from "react";
+// import {  InputAdornment } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { SearchContainer, Input } from "./styles";
+import { Searchs,SearchIconWrapper,StyledInputBase } from "./styles";
 import { searchMovie } from "../../features/currentGenreOrCategory";
 
 const Search = () => {
@@ -21,22 +21,19 @@ const Search = () => {
   if(location.pathname != '/') return null;
   return (
     <div>
-      <SearchContainer>
-        <TextField
-          onKeyPress={handleKeyPress}
+     
+      <Searchs>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+            onKeyPress={handleKeyPress}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          variant="standard"
-          InputProps={{
-            inputComponent: Input,
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </SearchContainer>
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Searchs>
     </div>
   );
 };

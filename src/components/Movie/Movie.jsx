@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Grid, Grow, Rating,Tooltip } from "@mui/material";
 import { StyledLink, Title, MovieImage } from "./styles";
 
@@ -30,3 +30,4 @@ const Movie = ({ movie, i }) => {
 };
 
 export default Movie;
+

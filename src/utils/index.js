@@ -1,14 +1,15 @@
 import axios from "axios";
 
-// Set up the axios instance to use the proxy server
 export const moviesApi = axios.create({
-    baseURL: 'http://localhost:3001/api', // Updated base URL
+    baseURL: 'https://api.themoviedb.org/3',
+    params: {
+        api_key: import.meta.env.VITE_TMDB_KEY,
+    },
 });
 
-// Fetch a new token using the proxy server
 export const fetchToken = async () => {
     try {
-        const { data } = await moviesApi.get('/authentication/token/new'); // Proxy handles the TMDB API call
+        const { data } = await moviesApi.get('/authentication/token/new');
         const token = data.request_token;
 
         if (data.success) {
@@ -16,11 +17,10 @@ export const fetchToken = async () => {
             window.location.href = `https://www.themoviedb.org/authenticate/${token}?redirect_to=${window.location.origin}/approved`;
         }
     } catch (error) {
-        console.log('Error in fetchToken:', error.message);
+        console.log('Error in fetchToken:', error);
     }
 };
 
-// Create a session ID using the proxy server
 export const createSessionId = async () => {
     const token = localStorage.getItem('request_token');
 
@@ -30,7 +30,7 @@ export const createSessionId = async () => {
                 request_token: token,
             });
 
-            console.log('Session ID Response:', data);
+            console.log('Session ID Response:', data); // Debugging
 
             if (data.session_id) {
                 localStorage.setItem('session_id', data.session_id);
