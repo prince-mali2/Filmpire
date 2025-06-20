@@ -39,15 +39,15 @@ Follow these steps to get Filmpire up and running on your local machine:
 
 1. **Clone the Repository:**  
    ```bash  
-   git clone https://github.com/yourusername/filmpire.git  
+   git clone https://github.com/prince-mali2/filmpire.git  
    cd filmpire  
 
-Install Dependencies:
 
-bash
-Copy
-Edit
-npm install  
+2. **Install Dependencies:**  
+   ```bash  
+   npm install  
+       
+ 
 Start the Development Server:
 
 bash
