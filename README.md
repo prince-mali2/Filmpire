@@ -46,27 +46,28 @@ Follow these steps to get Filmpire up and running on your local machine:
 2. **Install Dependencies:**  
    ```bash  
    npm install  
-       
- 
-Start the Development Server:
 
-bash
-Copy
-Edit
-npm start  
+2. **Start the Development Server:**  
+   ```bash  
+   npm start         
+ 
+
+
+
+ 
 Access the App:
 Visit http://localhost:3000 in your browser.
 
-🌟 Highlights
-🎬 A responsive and immersive movie app built with React.
-📊 Real-time movie data fetched dynamically via APIs.
-💻 Modern, user-friendly interface leveraging Material UI components.
+## 🌟 Highlights
+- 🎬 A responsive and immersive movie app built with React.
+- 📊 Real-time movie data fetched dynamically via APIs.
+- 💻 Modern, user-friendly interface leveraging Material UI components.
 
-🎯 Future Enhancements
-🔐 User Authentication
-💬 User Reviews and Ratings
-📽️ Customizable Themes
-💡 AI-based Recommendations
+## 🎯 Future Enhancements
+- 🔐 User Authentication
+- 💬 User Reviews and Ratings
+- 📽️ Customizable Themes
+- 💡 AI-based Recommendations
 
 🤝 Contributing
 We welcome contributions to make Filmpire even better! Follow these steps:
