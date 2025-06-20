@@ -51,10 +51,6 @@ Follow these steps to get Filmpire up and running on your local machine:
    ```bash  
    npm start         
  
-
-
-
- 
 Access the App:
 Visit http://localhost:3000 in your browser.
 
