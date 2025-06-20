@@ -64,30 +64,18 @@ Visit http://localhost:3000 in your browser.
 - 💻 Modern, user-friendly interface leveraging Material UI components.
 
 ## 🎯 Future Enhancements
-- 🔐 User Authentication
 - 💬 User Reviews and Ratings
 - 📽️ Customizable Themes
-- 💡 AI-based Recommendations
+- 💡 AI-based movie search and recommendations
 
-🤝 Contributing
-We welcome contributions to make Filmpire even better! Follow these steps:
 
-Fork the repository.
-
-Create a new branch (git checkout -b feature-name).
-
-Commit your changes (git commit -m "Added feature").
-
-Push to the branch (git push origin feature-name).
-
-Open a Pull Request.
 
 📧 Contact
 For queries, feedback, or collaborations, feel free to reach out:
 
 Name: Prince Mali
 
-Email: prince.mali@example.com
+Email: princemali019@gmail.com
 
-LinkedIn: Your Profile
+LinkedIn: https://www.linkedin.com/in/prince-mali/
 
