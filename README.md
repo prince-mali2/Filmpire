@@ -4,6 +4,12 @@ Welcome to **Filmpire**, the ultimate destination for movie enthusiasts! Dive in
 
 ---
 
+## 🌐 Live Demo  
+
+Check out the live version of Filmpire here: [Filmpire Live](https://filmpire-n9sq.onrender.com/)
+
+---
+
 ## 🚀 Features  
 
 - ✨ **Explore Popular Movies**  
