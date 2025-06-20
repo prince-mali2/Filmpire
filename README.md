@@ -70,8 +70,8 @@ Visit http://localhost:3000 in your browser.
 
 
 
-📧 Contact
-For queries, feedback, or collaborations, feel free to reach out:
+## 📧 Contact
+- For queries, feedback, or collaborations, feel free to reach out:
 
 Name: Prince Mali
 
