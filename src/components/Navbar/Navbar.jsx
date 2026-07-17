@@ -36,7 +36,7 @@ const Navbar = () => {
 
   const handleMenuAction = (setting) => {
     if (setting === 'My Profile') {
-        navigate("/profile"); // Navigate to profile
+      window.location.href = '/profile'; // Navigate to profile
     } else if (setting === 'Logout') {
       logout({ returnTo: window.location.origin }); // Auth0 logout
     }
