@@ -14,6 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 
 
 
@@ -34,7 +36,7 @@ const Navbar = () => {
 
   const handleMenuAction = (setting) => {
     if (setting === 'My Profile') {
-      window.location.href = '/profile'; // Navigate to profile
+        navigate("/profile"); // Navigate to profile
     } else if (setting === 'Logout') {
       logout({ returnTo: window.location.origin }); // Auth0 logout
     }
