@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { genreOrCategory } from "../features/currentGenreOrCategory";
 const tmdbApiKey = import.meta.env.VITE_TMDB_KEY; 
 
 
@@ -10,10 +9,10 @@ export const tmdbApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://filmpire-backend.onrender.com/api" }),
   endpoints: (builder) => ({
     //* Get Genres
-    getGenres: builder.query({
-      query: () => `/genre/movie/list`,
-    }),
-
+        getGenres: builder.query({
+          query: () => `/genre/movie/list`,
+        }),
+        
     //* Get Movies
     getMovies: builder.query({
       query: ({ genreIdOrCategoryName, page, searchQuery }) => {
@@ -57,7 +56,7 @@ export const tmdbApi = createApi({
 
     //* Get Actor's movies
     getMoviesByActorsId: builder.query({
-      query: ({ id, page }) => `/discover/movie?with_cast=${id}&page=${page}`,
+      query: ({ id }) => `person/${id}/movie_credits`,
     }),
   }),
 });

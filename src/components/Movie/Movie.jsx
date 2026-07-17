@@ -11,7 +11,7 @@ const Movie = ({ movie, i }) => {
           <MovieImage
             alt={movie.title}
             src={
-             `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+             `https://image.tmdb.org/t/p/w500/${movie?.poster_path}`}
                 
           />
          

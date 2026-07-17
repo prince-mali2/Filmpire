@@ -15,9 +15,12 @@ const Actors = () => {
     const navigate = useNavigate();
     const {data, isFetching, error} = useGetActorsDetailsQuery(id);
     const[page, setPage] = useState(1);
-    const {data : movies} = useGetMoviesByActorsIdQuery({id, page});
+    const {data : movies} = useGetMoviesByActorsIdQuery({id});
+
      
-    console.log(data);
+    console.log(movies);
+    // console.log(data);
+
     if (isFetching) {
         return (
           <Box display="flex" justifyContent="center" alignContent="center">
@@ -73,7 +76,7 @@ const Actors = () => {
     </ContainerSpaceAround>
 
     <Box margin="2rem 0">
-      <Typography variant='h2' gutterBottom align='center'>Movies</Typography>
+      <Typography variant='h3' gutterBottom align='center'>{data?.name}'s movies</Typography>
       {movies && <MovieList movies={movies} numberOfMovies={18}/>}
       <Pagination currentPage={page} setPage={setPage} totalPages={movies?.total_pages}/>
     </Box>
